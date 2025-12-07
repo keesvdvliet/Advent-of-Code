@@ -1,0 +1,12 @@
+{
+  "name": "aoc2025-puzzles",
+  "version": "2025",
+  "description": "My AoC 2025 puzzle solutions :)!",
+  "type": "module",
+  "scripts": {
+    "solve": "tsx helpers/build/run-solution.ts",
+    "create": "tsx helpers/build/create-new.ts"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
