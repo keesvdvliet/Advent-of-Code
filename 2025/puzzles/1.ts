@@ -18,11 +18,8 @@ const puzzleNo: string = basename(fileURLToPath(import.meta.url)).replace(
 );
 
 let dataSeparator: string = "\n";
-let rawData: Array<string> = await readDataset(puzzleNo, dataSeparator);
-const testData: Array<string> = await readDataset(
-  `${puzzleNo}T`,
-  dataSeparator
-);
+let rawData = (await readDataset(puzzleNo, dataSeparator)) as string[];
+const testData = (await readDataset(`${puzzleNo}T`, dataSeparator)) as string[];
 let dataset: Array<number> = [];
 
 let partOneAnswer: number = 0;
