@@ -6,18 +6,25 @@ if (args.length === 0) {
 }
 
 const puzzleNumber = args[0];
-const filePath = `../puzzles/${puzzleNumber}.ts`;
+const runMode = args[1] || "default";
+const filePath = `../../puzzles/${puzzleNumber}.ts`;
 
 async function run() {
   try {
     const module = await import(filePath);
-    const solve = module.default;
+    let fn: any;
 
-    if (typeof solve !== "function") {
-      throw new Error(`⚠️ No export function found`);
+    if (runMode === "default") {
+      fn = module.default;
+    } else {
+      fn = module[runMode];
     }
 
-    const result = await solve();
+    if (typeof fn !== "function") {
+      throw new Error(`❌ Error`);
+    }
+
+    const result = await fn();
     console.log("➡️ ", result);
   } catch (err) {
     console.error("❌ Error ", err);

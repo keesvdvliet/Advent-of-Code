@@ -1,4 +1,5 @@
 import { readDataset } from "../helpers/read-dataset";
+import { tester } from "../helpers/tester";
 import { fileURLToPath } from "url";
 import { basename } from "path";
 import { modulo } from "../helpers/functions";
@@ -7,23 +8,29 @@ import { modulo } from "../helpers/functions";
 //Part 1: ✅
 //Part 2: ..
 
-const testing: Boolean = true;
+let testing: Boolean = false;
+const testOneAnswer: number = 3;
+const testTwoAnswer: number = 6;
+
 const puzzleNo: string = basename(fileURLToPath(import.meta.url)).replace(
   /\.[^/.]+$/,
   ""
 );
-const rawData: Array<string> = await readDataset(
-  testing ? `${puzzleNo}T` : puzzleNo,
-  "\n"
+
+let dataSeparator: string = "\n";
+let rawData: Array<string> = await readDataset(puzzleNo, dataSeparator);
+const testData: Array<string> = await readDataset(
+  `${puzzleNo}T`,
+  dataSeparator
 );
 let dataset: Array<number> = [];
+
+let partOneAnswer: number = 0;
+let partTwoAnswer: number = 0;
 
 const dialStart: number = 50;
 const dialMax: number = 100;
 let dialCurrent: number = dialStart;
-
-let partOneAnswer: number = 0;
-let partTwoAnswer: number = 0;
 
 export default function solve(): string {
   structureData();
@@ -39,9 +46,7 @@ export default function solve(): string {
     if (dialCurrent === 0) partOneAnswer++;
   });
 
-  console.log(`Part 1: ${partOneAnswer}`);
-  console.log(`Part 2: ${partTwoAnswer}`);
-  return "✅";
+  return `✅ 1: ${partOneAnswer} | ✅ 2: ${partTwoAnswer}`;
 }
 
 function structureData(): void {
@@ -65,4 +70,10 @@ function countCycles(start: number, delta: number): number {
   cycles = cycles >= 0 ? cycles : cycles * -1;
 
   return cycles;
+}
+
+export function test(): string {
+  testing = true;
+  solve();
+  return tester(testOneAnswer, testTwoAnswer, partOneAnswer, partTwoAnswer);
 }

@@ -1,4 +1,5 @@
 import { readDataset } from "../helpers/read-dataset";
+import { tester } from "../helpers/tester";
 import { fileURLToPath } from "url";
 import { basename } from "path";
 
@@ -6,14 +7,20 @@ import { basename } from "path";
 //Part 1: ✅
 //Part 2: ✅
 
-const testing: Boolean = false;
+let testing: Boolean = false;
+const testOneAnswer: number = 1227775554;
+const testTwoAnswer: number = 1227775554;
+
 const puzzleNo: string = basename(fileURLToPath(import.meta.url)).replace(
   /\.[^/.]+$/,
   ""
 );
-const rawData: Array<string> = await readDataset(
-  testing ? `${puzzleNo}T` : puzzleNo,
-  ","
+
+let dataSeparator: string = ",";
+let rawData: Array<string> = await readDataset(puzzleNo, dataSeparator);
+const testData: Array<string> = await readDataset(
+  `${puzzleNo}T`,
+  dataSeparator
 );
 let dataset: Array<Array<number>> = [];
 
@@ -36,12 +43,12 @@ export default function solve(): string {
     }
   });
 
-  console.log(`Part 1: ${partOneAnswer}`);
-  console.log(`Part 2: ${partTwoAnswer}`);
-  return "✅";
+  return `✅ 1: ${partOneAnswer} | ✅ 2: ${partTwoAnswer}`;
 }
 
 function structureData(): void {
+  if (testing) rawData = testData;
+
   rawData?.forEach((datapoint, i) => {
     dataset[i] = datapoint.split("-").map((line) => Number(line.trim()));
   });
@@ -51,4 +58,10 @@ function checkRepeat(pattern: number, input: string | number): boolean {
   const regex = pattern === 1 ? /^(\d+)\1$/ : /^(\d+)\1+$/;
   const str = input as string;
   return regex.test(str);
+}
+
+export function test(): string {
+  testing = true;
+  solve();
+  return tester(testOneAnswer, testTwoAnswer, partOneAnswer, partTwoAnswer);
 }

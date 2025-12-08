@@ -1,4 +1,5 @@
 import { readDataset } from "../helpers/read-dataset";
+import { tester } from "../helpers/tester";
 import { fileURLToPath } from "url";
 import { basename } from "path";
 
@@ -6,14 +7,20 @@ import { basename } from "path";
 //Part 1: ..
 //Part 2: ..
 
-const testing: Boolean = true;
+let testing: Boolean = false;
+const testOneAnswer: number = 0;
+const testTwoAnswer: number = 0;
+
 const puzzleNo: string = basename(fileURLToPath(import.meta.url)).replace(
   /\.[^/.]+$/,
   ""
 );
-const rawData: Array<string> = await readDataset(
-  testing ? `${puzzleNo}T` : puzzleNo,
-  ","
+
+let dataSeparator: string = "\n";
+let rawData: Array<string> = await readDataset(puzzleNo, dataSeparator);
+const testData: Array<string> = await readDataset(
+  `${puzzleNo}T`,
+  dataSeparator
 );
 let dataset: Array<any> = [];
 
@@ -25,13 +32,19 @@ export default function solve(): string {
 
   /* GOOD LUCK :) */
 
-  console.log(`Part 1: ${partOneAnswer}`);
-  console.log(`Part 2: ${partTwoAnswer}`);
-  return "✅";
+  return `✅ 1: ${partOneAnswer} | ✅ 2: ${partTwoAnswer}`;
 }
 
 function structureData(): void {
+  if (testing) rawData = testData;
+
   rawData?.forEach((datapoint, i) => {
     dataset[i] = datapoint; //Do something with your data
   });
+}
+
+export function test(): string {
+  testing = true;
+  solve();
+  return tester(testOneAnswer, testTwoAnswer, partOneAnswer, partTwoAnswer);
 }
