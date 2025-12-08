@@ -13,7 +13,7 @@ export function tester(
   testOneStatus =
     inputOne === checkOne ? "✅ Test 1 succeeded" : "⚠️ Test 1 failed";
   testTwoStatus =
-    inputOne === checkOne ? "✅ Test 2 succeeded" : "⚠️ Test 2 failed";
+    inputTwo === checkTwo ? "✅ Test 2 succeeded" : "⚠️ Test 2 failed";
 
   return `${testOneStatus} | ${testTwoStatus}`;
 }
