@@ -36,7 +36,7 @@ function structureData(): void {
   if (testing) rawData = testData;
 
   rawData?.forEach((datapoint, i) => {
-    dataset[i] = datapoint; //Do something with your data
+    /* Do something with your data */
   });
 }
 
